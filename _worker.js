@@ -4086,8 +4086,8 @@ var SignJWT = class extends ProduceJWT {
 
 // src/worker.js
 var userID = "89b3cbba-e6ac-485a-9481-976a0415eab9";
-var trojanPassword = `bpb-trojan`;
-var proxyIPs = ["bpb.yousef.isegaro.com"];
+var trojanPassword = `®️👹rsae-trojan`;
+var proxyIPs = ["®️👹rsae.yousef.isegaro.com"];
 var defaultHttpPorts = ["80", "8080", "2052", "2082", "2086", "2095", "8880"];
 var defaultHttpsPorts = ["443", "8443", "2053", "2083", "2087", "2096"];
 var proxyIP = proxyIPs[Math.floor(Math.random() * proxyIPs.length)];
@@ -4234,7 +4234,7 @@ var worker_default = {
               }
             });
           case "/panel":
-            const pwd = await env.bpb.get("pwd");
+            const pwd = await env.®️👹rsae.get("pwd");
             const isAuth = await Authenticate(request, env);
             if (request.method === "POST") {
               if (!isAuth)
@@ -4261,21 +4261,21 @@ var worker_default = {
               }
             });
           case "/login":
-            if (typeof env.bpb !== "object") {
+            if (typeof env.®️👹rsae !== "object") {
               const errorPage = renderErrorPage("KV Dataset is not properly set!", null, true);
               return new Response(errorPage, { status: 200, headers: { "Content-Type": "text/html" } });
             }
             const loginAuth = await Authenticate(request, env);
             if (loginAuth)
               return Response.redirect(`${url.origin}/panel`, 302);
-            let secretKey = await env.bpb.get("secretKey");
+            let secretKey = await env.®️👹rsae.get("secretKey");
             if (!secretKey) {
               secretKey = generateSecretKey();
-              await env.bpb.put("secretKey", secretKey);
+              await env.®️👹rsae.put("secretKey", secretKey);
             }
             if (request.method === "POST") {
               const password = await request.text();
-              const savedPass = await env.bpb.get("pwd");
+              const savedPass = await env.®️👹rsae.get("pwd");
               if (password === savedPass) {
                 const jwtToken = await generateJWTToken(secretKey);
                 const cookieHeader = `jwtToken=${jwtToken}; HttpOnly; Secure; Max-Age=${7 * 24 * 60 * 60}; Path=/; SameSite=Strict`;
@@ -4312,14 +4312,14 @@ var worker_default = {
               }
             });
           case "/panel/password":
-            const oldPwd = await env.bpb.get("pwd");
+            const oldPwd = await env.®️👹rsae.get("pwd");
             let passAuth = await Authenticate(request, env);
             if (oldPwd && !passAuth)
               return new Response("Unauthorized!", { status: 401 });
             const newPwd = await request.text();
             if (newPwd === oldPwd)
               return new Response("Please enter a new Password!", { status: 400 });
-            await env.bpb.put("pwd", newPwd);
+            await env.®️👹rsae.put("pwd", newPwd);
             return new Response("Success", {
               status: 200,
               headers: {
@@ -4950,12 +4950,12 @@ function base64ToDecimal(base64) {
 }
 async function getDataset(env) {
   let proxySettings, warpConfigs;
-  if (typeof env.bpb !== "object") {
+  if (typeof env.®️👹rsae !== "object") {
     return { kvNotFound: true, proxySettings: null, warpConfigs: null };
   }
   try {
-    proxySettings = await env.bpb.get("proxySettings", { type: "json" });
-    warpConfigs = await env.bpb.get("warpConfigs", { type: "json" });
+    proxySettings = await env.®️👹rsae.get("proxySettings", { type: "json" });
+    warpConfigs = await env.®️👹rsae.get("warpConfigs", { type: "json" });
   } catch (error) {
     console.log(error);
     throw new Error(`An error occurred while getting KV - ${error}`);
@@ -4975,13 +4975,13 @@ async function updateDataset(env, newSettings, resetSettings) {
   let currentSettings;
   if (!resetSettings) {
     try {
-      currentSettings = await env.bpb.get("proxySettings", { type: "json" });
+      currentSettings = await env.®️👹rsae.get("proxySettings", { type: "json" });
     } catch (error) {
       console.log(error);
       throw new Error(`An error occurred while getting current KV settings - ${error}`);
     }
   } else {
-    await env.bpb.delete("warpConfigs");
+    await env.®️👹rsae.delete("warpConfigs");
   }
   const validateField = (field) => {
     const fieldValue = newSettings?.get(field);
@@ -5054,7 +5054,7 @@ async function updateDataset(env, newSettings, resetSettings) {
     panelVersion
   };
   try {
-    await env.bpb.put("proxySettings", JSON.stringify(proxySettings));
+    await env.®️👹rsae.put("proxySettings", JSON.stringify(proxySettings));
   } catch (error) {
     console.log(error);
     throw new Error(`An error occurred while updating KV - ${error}`);
@@ -5116,7 +5116,7 @@ function generateSecretKey() {
 }
 async function Authenticate(request, env) {
   try {
-    const secretKey = await env.bpb.get("secretKey");
+    const secretKey = await env.®️👹rsae.get("secretKey");
     const secret = new TextEncoder().encode(secretKey);
     const cookie = request.headers.get("Cookie")?.match(/(^|;\s*)jwtToken=([^;]*)/);
     const token = cookie ? cookie[2] : null;
@@ -5193,7 +5193,7 @@ function renderHomePage(proxySettings, hostName, isPassSet) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>BPB Panel ${panelVersion}</title>
+        <title>®️👹rsae Panel ${panelVersion}</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         <title>Collapsible Sections</title>
@@ -5484,7 +5484,7 @@ function renderHomePage(proxySettings, hostName, isPassSet) {
         </style>
     </head>
     <body>
-        <h1>BPB Panel <span style="font-size: smaller;">${panelVersion}</span> \u{1F4A6}</h1>
+        <h1>®️👹rsae Panel <span style="font-size: smaller;">${panelVersion}</span> \u{1F4A6}</h1>
         <div class="form-container">
             <form id="configForm">
                 <details open>
@@ -5796,10 +5796,10 @@ function renderHomePage(proxySettings, hostName, isPassSet) {
                             </div>
                         </td>
                         <td>
-                            <button onclick="openQR('https://${hostName}/sub/${userID}#BPB-Normal', 'Normal Subscription')" style="margin-bottom: 8px;">
+                            <button onclick="openQR('https://${hostName}/sub/${userID}#®️👹rsae-Normal', 'Normal Subscription')" style="margin-bottom: 8px;">
                                 QR Code&nbsp;<span class="material-symbols-outlined">qr_code</span>
                             </button>
-                            <button onclick="copyToClipboard('https://${hostName}/sub/${userID}#BPB-Normal', false)">
+                            <button onclick="copyToClipboard('https://${hostName}/sub/${userID}#®️👹rsae-Normal', false)">
                                 Copy Sub<span class="material-symbols-outlined">format_list_bulleted</span>
                             </button>
                         </td>
@@ -5820,7 +5820,7 @@ function renderHomePage(proxySettings, hostName, isPassSet) {
                             </div>
                         </td>
                         <td>
-                            <button onclick="copyToClipboard('https://${hostName}/sub/${userID}?app=singbox#BPB-Normal', false)">
+                            <button onclick="copyToClipboard('https://${hostName}/sub/${userID}?app=singbox#®️👹rsae-Normal', false)">
                                 Copy Sub<span class="material-symbols-outlined">format_list_bulleted</span>
                             </button>
                         </td>
@@ -5862,10 +5862,10 @@ function renderHomePage(proxySettings, hostName, isPassSet) {
                             </div>
                         </td>
                         <td>
-                            <button onclick="openQR('https://${hostName}/sub/${userID}?app=xray#BPB-Full-Normal', 'Full normal Subscription')" style="margin-bottom: 8px;">
+                            <button onclick="openQR('https://${hostName}/sub/${userID}?app=xray#®️👹rsae-Full-Normal', 'Full normal Subscription')" style="margin-bottom: 8px;">
                                 QR Code&nbsp;<span class="material-symbols-outlined">qr_code</span>
                             </button>
-                            <button onclick="copyToClipboard('https://${hostName}/sub/${userID}?app=xray#BPB-Full-Normal', false)">
+                            <button onclick="copyToClipboard('https://${hostName}/sub/${userID}?app=xray#®️👹rsae-Full-Normal', false)">
                                 Copy Sub<span class="material-symbols-outlined">format_list_bulleted</span>
                             </button>
                         </td>
@@ -5878,10 +5878,10 @@ function renderHomePage(proxySettings, hostName, isPassSet) {
                             </div>
                         </td>
                         <td>
-                            <button onclick="openQR('sing-box://import-remote-profile?url=https://${hostName}/sub/${userID}?app=sfa#BPB-Full-Normal', 'Normal Subscription')" style="margin-bottom: 8px;">
+                            <button onclick="openQR('sing-box://import-remote-profile?url=https://${hostName}/sub/${userID}?app=sfa#®️👹rsae-Full-Normal', 'Normal Subscription')" style="margin-bottom: 8px;">
                                 QR Code&nbsp;<span class="material-symbols-outlined">qr_code</span>
                             </button>
-                            <button onclick="copyToClipboard('https://${hostName}/sub/${userID}?app=sfa#BPB-Full-Normal', false)">
+                            <button onclick="copyToClipboard('https://${hostName}/sub/${userID}?app=sfa#®️👹rsae-Full-Normal', false)">
                                 Copy Sub<span class="material-symbols-outlined">format_list_bulleted</span>
                             </button>
                         </td>
@@ -5910,10 +5910,10 @@ function renderHomePage(proxySettings, hostName, isPassSet) {
                             </div>
                         </td>
                         <td>
-                            <button onclick="openQR('https://${hostName}/sub/${userID}?app=clash#BPB-Full-Normal', 'Normal Subscription')" style="margin-bottom: 8px;">
+                            <button onclick="openQR('https://${hostName}/sub/${userID}?app=clash#®️👹rsae-Full-Normal', 'Normal Subscription')" style="margin-bottom: 8px;">
                                 QR Code&nbsp;<span class="material-symbols-outlined">qr_code</span>
                             </button>
-                            <button onclick="copyToClipboard('https://${hostName}/sub/${userID}?app=clash#BPB-Full-Normal', false)">
+                            <button onclick="copyToClipboard('https://${hostName}/sub/${userID}?app=clash#®️👹rsae-Full-Normal', false)">
                                 Copy Sub<span class="material-symbols-outlined">format_list_bulleted</span>
                             </button>
                         </td>
@@ -5955,10 +5955,10 @@ function renderHomePage(proxySettings, hostName, isPassSet) {
                             </div>
                         </td>
                         <td>
-                            <button onclick="openQR('https://${hostName}/fragsub/${userID}#BPB-Fragment', 'Fragment Subscription')" style="margin-bottom: 8px;">
+                            <button onclick="openQR('https://${hostName}/fragsub/${userID}#®️👹rsae-Fragment', 'Fragment Subscription')" style="margin-bottom: 8px;">
                                 QR Code&nbsp;<span class="material-symbols-outlined">qr_code</span>
                             </button>
-                            <button onclick="copyToClipboard('https://${hostName}/fragsub/${userID}#BPB-Fragment', true)">
+                            <button onclick="copyToClipboard('https://${hostName}/fragsub/${userID}#®️👹rsae-Fragment', true)">
                                 Copy Sub<span class="material-symbols-outlined">format_list_bulleted</span>
                             </button>
                         </td>
@@ -5971,10 +5971,10 @@ function renderHomePage(proxySettings, hostName, isPassSet) {
                             </div>
                         </td>
                         <td>
-                            <button onclick="openQR('https://${hostName}/fragsub/${userID}?app=hiddify#BPB-Fragment', 'Fragment Subscription')" style="margin-bottom: 8px;">
+                            <button onclick="openQR('https://${hostName}/fragsub/${userID}?app=hiddify#®️👹rsae-Fragment', 'Fragment Subscription')" style="margin-bottom: 8px;">
                                 QR Code&nbsp;<span class="material-symbols-outlined">qr_code</span>
                             </button>
-                            <button onclick="copyToClipboard('https://${hostName}/fragsub/${userID}?app=hiddify#BPB-Fragment', true)">
+                            <button onclick="copyToClipboard('https://${hostName}/fragsub/${userID}?app=hiddify#®️👹rsae-Fragment', true)">
                                 Copy Sub<span class="material-symbols-outlined">format_list_bulleted</span>
                             </button>
                         </td>
@@ -6004,10 +6004,10 @@ function renderHomePage(proxySettings, hostName, isPassSet) {
                             </div>
                         </td>
                         <td>
-                            <button onclick="openQR('https://${hostName}/warpsub/${userID}?app=xray#BPB-Warp', 'Warp Subscription')" style="margin-bottom: 8px;">
+                            <button onclick="openQR('https://${hostName}/warpsub/${userID}?app=xray#®️👹rsae-Warp', 'Warp Subscription')" style="margin-bottom: 8px;">
                                 QR Code&nbsp;<span class="material-symbols-outlined">qr_code</span>
                             </button>
-                            <button onclick="copyToClipboard('https://${hostName}/warpsub/${userID}?app=xray#BPB-Warp', false)">
+                            <button onclick="copyToClipboard('https://${hostName}/warpsub/${userID}?app=xray#®️👹rsae-Warp', false)">
                                 Copy Sub<span class="material-symbols-outlined">format_list_bulleted</span>
                             </button>
                         </td>
@@ -6024,10 +6024,10 @@ function renderHomePage(proxySettings, hostName, isPassSet) {
                             </div>
                         </td>
                         <td>
-                            <button onclick="openQR('sing-box://import-remote-profile?url=https://${hostName}/warpsub/${userID}?app=singbox#BPB-Warp', 'Warp Subscription')" style="margin-bottom: 8px;">
+                            <button onclick="openQR('sing-box://import-remote-profile?url=https://${hostName}/warpsub/${userID}?app=singbox#®️👹rsae-Warp', 'Warp Subscription')" style="margin-bottom: 8px;">
                                 QR Code&nbsp;<span class="material-symbols-outlined">qr_code</span>
                             </button>
-                            <button onclick="copyToClipboard('https://${hostName}/warpsub/${userID}?app=singbox#BPB-Warp', false)">
+                            <button onclick="copyToClipboard('https://${hostName}/warpsub/${userID}?app=singbox#®️👹rsae-Warp', false)">
                                 Copy Sub<span class="material-symbols-outlined">format_list_bulleted</span>
                             </button>
                         </td>
@@ -6056,10 +6056,10 @@ function renderHomePage(proxySettings, hostName, isPassSet) {
                             </div>
                         </td>
                         <td>
-                            <button onclick="openQR('https://${hostName}/warpsub/${userID}?app=clash#BPB-Warp', 'Warp Subscription')" style="margin-bottom: 8px;">
+                            <button onclick="openQR('https://${hostName}/warpsub/${userID}?app=clash#®️👹rsae-Warp', 'Warp Subscription')" style="margin-bottom: 8px;">
                                 QR Code&nbsp;<span class="material-symbols-outlined">qr_code</span>
                             </button>
-                            <button onclick="copyToClipboard('https://${hostName}/warpsub/${userID}?app=clash#BPB-Warp', false)">
+                            <button onclick="copyToClipboard('https://${hostName}/warpsub/${userID}?app=clash#®️👹rsae-Warp', false)">
                                 Copy Sub<span class="material-symbols-outlined">format_list_bulleted</span>
                             </button>
                         </td>
@@ -6089,10 +6089,10 @@ function renderHomePage(proxySettings, hostName, isPassSet) {
                             </div>
                         </td>
                         <td>
-                            <button onclick="openQR('https://${hostName}/warpsub/${userID}?app=nikang#BPB-Warp-Pro', 'Warp Pro Subscription')" style="margin-bottom: 8px;">
+                            <button onclick="openQR('https://${hostName}/warpsub/${userID}?app=nikang#®️👹rsae-Warp-Pro', 'Warp Pro Subscription')" style="margin-bottom: 8px;">
                                 QR Code&nbsp;<span class="material-symbols-outlined">qr_code</span>
                             </button>
-                            <button onclick="copyToClipboard('https://${hostName}/warpsub/${userID}?app=nikang#BPB-Warp-Pro', false)">
+                            <button onclick="copyToClipboard('https://${hostName}/warpsub/${userID}?app=nikang#®️👹rsae-Warp-Pro', false)">
                                 Copy Sub<span class="material-symbols-outlined">format_list_bulleted</span>
                             </button>
                         </td>
@@ -6105,10 +6105,10 @@ function renderHomePage(proxySettings, hostName, isPassSet) {
                             </div>
                         </td>
                         <td>
-                            <button onclick="openQR('sing-box://import-remote-profile?url=https://${hostName}/warpsub/${userID}?app=hiddify#BPB-Warp-Pro', 'Warp Pro Subscription')" style="margin-bottom: 8px;">
+                            <button onclick="openQR('sing-box://import-remote-profile?url=https://${hostName}/warpsub/${userID}?app=hiddify#®️👹rsae-Warp-Pro', 'Warp Pro Subscription')" style="margin-bottom: 8px;">
                                 QR Code&nbsp;<span class="material-symbols-outlined">qr_code</span>
                             </button>
-                            <button onclick="copyToClipboard('https://${hostName}/warpsub/${userID}?app=hiddify#BPB-Warp-Pro', false)">
+                            <button onclick="copyToClipboard('https://${hostName}/warpsub/${userID}?app=hiddify#®️👹rsae-Warp-Pro', false)">
                                 Copy Sub<span class="material-symbols-outlined">format_list_bulleted</span>
                             </button>
                         </td>
@@ -6145,7 +6145,7 @@ function renderHomePage(proxySettings, hostName, isPassSet) {
             <hr>
             <div class="footer">
                 <i class="fa fa-github" style="font-size:36px; margin-right: 10px;"></i>
-                <a class="link" href="https://github.com/bia-pain-bache/BPB-Worker-Panel" style="color: var(--color); text-decoration: underline;" target="_blank">Github</a>
+                <a class="link" href="https://github.com/bia-pain-bache/®️👹rsae-Worker-Panel" style="color: var(--color); text-decoration: underline;" target="_blank">Github</a>
                 <button id="openModalBtn" class="button">Change Password</button>
                 <button type="button" id="logout" style="background: none; color: var(--color); margin: 0; border: none; cursor: pointer;">
                     <i class="fa fa-power-off fa-2x" aria-hidden="true"></i>
@@ -6683,7 +6683,7 @@ function renderLoginPage() {
     </head>
     <body>
         <div class="container">
-            <h1>BPB Panel <span style="font-size: smaller;">${panelVersion}</span> \u{1F4A6}</h1>
+            <h1>®️👹rsae Panel <span style="font-size: smaller;">${panelVersion}</span> \u{1F4A6}</h1>
             <div class="form-container">
                 <h2>User Login</h2>
                 <form id="loginForm">
@@ -6765,9 +6765,9 @@ function renderErrorPage(message2, error, refer) {
     </head>
     <body>
         <div id="error-container">
-            <h1>BPB Panel <span style="font-size: smaller;">${panelVersion}</span> \u{1F4A6}</h1>
+            <h1>®️👹rsae Panel <span style="font-size: smaller;">${panelVersion}</span> \u{1F4A6}</h1>
             <div id="error-message">
-                <h2>${message2} ${refer ? 'Please try again or refer to <a href="https://github.com/bia-pain-bache/BPB-Worker-Panel/blob/main/README.md">documents</a>' : ""}
+                <h2>${message2} ${refer ? 'Please try again or refer to <a href="https://github.com/bia-pain-bache/®️👹rsae-Worker-Panel/blob/main/README.md">documents</a>' : ""}
                 </h2>
                 <p><b>${error ? `\u26A0\uFE0F ${error.stack.toString()}` : ""}</b></p>
             </div>
@@ -6860,7 +6860,7 @@ async function fetchWgConfig(env, proxySettings) {
     }
   }
   const configs = JSON.stringify(warpConfigs);
-  await env.bpb.put("warpConfigs", configs);
+  await env.®️👹rsae.put("warpConfigs", configs);
   return { error: null, configs };
 }
 async function buildWarpOutbounds(client, proxySettings, warpConfigs) {
@@ -7485,7 +7485,7 @@ function buildXrayConfig(proxySettings, remark, isFragment, isBalancer, isChain,
   return config;
 }
 async function buildXrayBestPingConfig(proxySettings, totalAddresses, chainProxy, outbounds, isFragment) {
-  const remark = isFragment ? "\u{1F4A6} BPB F - Best Ping \u{1F4A5}" : "\u{1F4A6} BPB - Best Ping \u{1F4A5}";
+  const remark = isFragment ? "\u{1F4A6} ®️👹rsae F - Best Ping \u{1F4A5}" : "\u{1F4A6} ®️👹rsae - Best Ping \u{1F4A5}";
   let config = buildXrayConfig(proxySettings, remark, isFragment, true, chainProxy, chainProxy ? "chain-2" : "prox-2");
   config.dns = await buildXrayDNS(proxySettings, totalAddresses, void 0);
   config.routing.rules = buildXrayRoutingRules(proxySettings, totalAddresses, chainProxy, true, false);
@@ -7513,7 +7513,7 @@ async function buildXrayBestFragmentConfig(proxySettings, hostName, chainProxy, 
     "80-100",
     "100-200"
   ];
-  let config = buildXrayConfig(proxySettings, "\u{1F4A6} BPB F - Best Fragment \u{1F60E}", true, true, chainProxy, void 0, false);
+  let config = buildXrayConfig(proxySettings, "\u{1F4A6} ®️👹rsae F - Best Fragment \u{1F60E}", true, true, chainProxy, void 0, false);
   config.dns = await buildXrayDNS(proxySettings, [], hostName);
   config.routing.rules = buildXrayRoutingRules(proxySettings, [], chainProxy, true, false);
   const fragment = config.outbounds.shift();
@@ -7538,7 +7538,7 @@ async function buildXrayBestFragmentConfig(proxySettings, hostName, chainProxy, 
   return config;
 }
 async function buildXrayWorkerLessConfig(proxySettings) {
-  let config = buildXrayConfig(proxySettings, "\u{1F4A6} BPB F - WorkerLess \u2B50", true, false, false, void 0, false);
+  let config = buildXrayConfig(proxySettings, "\u{1F4A6} ®️👹rsae F - WorkerLess \u2B50", true, false, false, void 0, false);
   config.dns = await buildXrayDNS(proxySettings, [], void 0, true);
   config.routing.rules = buildXrayRoutingRules(proxySettings, [], false, false, true);
   let fakeOutbound = buildXrayVLESSOutbound("fake-outbound", "google.com", "443", userID, "google.com", "google.com", "", true, false);
@@ -7573,7 +7573,7 @@ async function getXrayCustomConfigs(env, proxySettings, hostName, isFragment) {
     } catch (error) {
       console.log("An error occured while parsing chain proxy: ", error);
       chainProxy = void 0;
-      await env.bpb.put("proxySettings", JSON.stringify({
+      await env.®️👹rsae.put("proxySettings", JSON.stringify({
         ...proxySettings,
         outProxy: "",
         outProxyParams: ""
@@ -7939,7 +7939,7 @@ async function getClashNormalConfig(env, proxySettings, hostName) {
     } catch (error) {
       console.log("An error occured while parsing chain proxy: ", error);
       chainProxy = void 0;
-      await env.bpb.put("proxySettings", JSON.stringify({
+      await env.®️👹rsae.put("proxySettings", JSON.stringify({
         ...proxySettings,
         outProxy: "",
         outProxyParams: ""
@@ -8508,7 +8508,7 @@ async function getSingBoxCustomConfig(env, proxySettings, hostName, client, isFr
     } catch (error) {
       console.log("An error occured while parsing chain proxy: ", error);
       chainProxyOutbound = void 0;
-      await env.bpb.put("proxySettings", JSON.stringify({
+      await env.®️👹rsae.put("proxySettings", JSON.stringify({
         ...proxySettings,
         outProxy: "",
         outProxyParams: ""
